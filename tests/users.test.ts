@@ -1,5 +1,5 @@
-import { Services } from '../api/services';
 import { describe, test, expect } from '@jest/globals';
+import { Services } from '../api/services';
 
 const services = Services.getInstance();
 const authService = services.getAuthService();
@@ -46,7 +46,7 @@ describe('SimpleApi/users', () => {
   });
 
   test('Should not get data about current user without access token', async () => {
-    authService.unauthorized();
+    await authService.unauthorized();
     const user = await usersService.getCurrentUser();
 
     expect(user.status).toBe(401);

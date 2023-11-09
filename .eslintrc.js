@@ -7,6 +7,8 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
+    'airbnb',
+    'airbnb-typescript/base',
   ],
   overrides: [
     {
@@ -23,6 +25,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
+    project: './tsconfig.eslint.json',
   },
   plugins: ['@typescript-eslint', 'prettier'],
   rules: {
@@ -36,5 +39,9 @@ module.exports = {
         trailingComma: 'all',
       },
     ],
+    'import/no-named-as-default': 0,
+    'import/prefer-default-export': 0,
+    '@typescript-eslint/lines-between-class-members': 0,
+    'import/no-extraneous-dependencies': 0,
   },
 };

@@ -1,7 +1,8 @@
-import { Services } from '../api/services';
 import { describe, test, expect } from '@jest/globals';
+import { Services } from '../api/services';
 
-const services = Services.getInstance();
+const services = Services.getInstance('default');
+
 const authService = services.getAuthService();
 
 describe('SimpleApi/auth', () => {

@@ -5,8 +5,6 @@ const services = Services.getInstance();
 const authService = services.getAuthService();
 const notesService = services.getNotesService();
 const usersService = services.getUsersService();
-// const authService = ServicesFactory.getAuthService();
-// const notesService = ServicesFactory.getNotesService();
 
 describe('SimpleApi/notes', () => {
   test('should get all notes', async () => {
@@ -84,7 +82,7 @@ describe('SimpleApi/notes', () => {
       content: 'test',
     });
 
-    expect(note.data.statusCode).toBe(401);
+    expect(note.status).toBe(401);
   });
 
   test('should not update note by not logged in user', async () => {
@@ -95,7 +93,7 @@ describe('SimpleApi/notes', () => {
       content: 'testUPDATED',
     });
 
-    expect(note.data.statusCode).toBe(401);
+    expect(note.status).toBe(401);
   });
 
   test('should get empty array of notes by invalid author id', async () => {
@@ -120,7 +118,7 @@ describe('SimpleApi/notes', () => {
       content: 'testUPDATED',
     });
 
-    expect(note.data.statusCode).toBe(404);
+    expect(note.status).toBe(404);
   });
 
   test('should not delete non existent note ', async () => {
@@ -131,7 +129,7 @@ describe('SimpleApi/notes', () => {
 
     const note = await notesService.deleteNoteById('invalidId');
 
-    expect(note.data.statusCode).toBe(404);
+    expect(note.status).toBe(404);
   });
 
   test('should not delete note without access token', async () => {
@@ -140,7 +138,7 @@ describe('SimpleApi/notes', () => {
     const noteToDelete = note.data[0].id;
     const deletedNote = await notesService.deleteNoteById(noteToDelete);
 
-    expect(deletedNote.data.statusCode).toBe(401);
+    expect(deletedNote.status).toBe(401);
   });
 
   test('Should not delete anoter user note', async () => {
@@ -158,6 +156,6 @@ describe('SimpleApi/notes', () => {
     });
     const deletedNote = await notesService.deleteNoteById(searchedId);
 
-    expect(deletedNote.data.statusCode).toBe(403);
+    expect(deletedNote.status).toBe(403);
   });
 });
