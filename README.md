@@ -14,8 +14,8 @@ npm install
 ```
  npm run test 
 ```
-! Sometimes the API is not responding, so the tests will fail. In this case, please, try again later.
-! Please, check the [Swagger docs](https://simpleapi.pfizer.keenetic.link/docs) to make sure that the API is working.
+>! Sometimes the API is not responding, so the tests will fail. In this case, please, try again later.** </br>
+>! Please, check the [Swagger docs](https://simpleapi.pfizer.keenetic.link/docs) to make sure that the API is working.
 
 ### Links
 - [Swagger docs](https://simpleapi.pfizer.keenetic.link/docs)
