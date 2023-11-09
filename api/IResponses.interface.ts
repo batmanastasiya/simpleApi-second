@@ -19,7 +19,7 @@ export interface INote {
   updatedAt: string;
 }
 
-export interface IApiResponce<T = unknown> {
+export interface IApiResponse<T = unknown> {
   status: number;
   data: T;
 }

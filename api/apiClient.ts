@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { IApiResponce } from './IResponces.interface';
+import { IApiResponse } from './IResponses.interface';
 
 export class ApiClient {
   private instance: AxiosInstance;
@@ -14,7 +14,7 @@ export class ApiClient {
 
   private async request(
     config: AxiosRequestConfig,
-  ): Promise<IApiResponce<never>> {
+  ): Promise<IApiResponse<never>> {
     const requestConfig = { ...config };
     if (this.token) {
       requestConfig.headers = {
@@ -24,22 +24,22 @@ export class ApiClient {
     return this.instance.request(requestConfig);
   }
 
-  async get(path: string): Promise<IApiResponce<never>> {
+  async get(path: string): Promise<IApiResponse<never>> {
     return this.request({ url: path, method: 'GET' });
   }
 
-  async post(path: string, data: unknown): Promise<IApiResponce<never>> {
+  async post(path: string, data: unknown): Promise<IApiResponse<never>> {
     return this.request({ url: path, method: 'POST', data });
   }
 
   async patch(
     path: string,
     data: { content: string },
-  ): Promise<IApiResponce<never>> {
+  ): Promise<IApiResponse<never>> {
     return this.request({ url: path, method: 'PATCH', data });
   }
 
-  async delete(path: string): Promise<IApiResponce<never>> {
+  async delete(path: string): Promise<IApiResponse<never>> {
     return this.request({ url: path, method: 'DELETE' });
   }
 

@@ -1,5 +1,5 @@
 import { ApiClient } from '../apiClient';
-import { IApiResponce, INote } from '../IResponces.interface';
+import { IApiResponse, INote } from '../IResponses.interface';
 import { ICreateNoteRequest } from '../IRequests.interface';
 
 export class NotesService {
@@ -7,30 +7,30 @@ export class NotesService {
     this.client = client;
   }
 
-  async getNotes(): Promise<IApiResponce<INote[]>> {
+  async getNotes(): Promise<IApiResponse<INote[]>> {
     return this.client.get('/notes');
   }
 
-  async createNote(data: ICreateNoteRequest): Promise<IApiResponce<INote>> {
+  async createNote(data: ICreateNoteRequest): Promise<IApiResponse<INote>> {
     return this.client.post('/notes', data);
   }
 
-  async getNoteById(id: string): Promise<IApiResponce<INote>> {
+  async getNoteById(id: string): Promise<IApiResponse<INote>> {
     return this.client.get(`/notes/${id}`);
   }
 
   async updateNoteById(
     id: string,
     data: ICreateNoteRequest,
-  ): Promise<IApiResponce<INote>> {
+  ): Promise<IApiResponse<INote>> {
     return this.client.patch(`/notes/${id}`, data);
   }
 
-  async deleteNoteById(id: string): Promise<IApiResponce> {
+  async deleteNoteById(id: string): Promise<IApiResponse> {
     return this.client.delete(`/notes/${id}`);
   }
 
-  async getNotesByUserId(id: string): Promise<IApiResponce<INote[]>> {
+  async getNotesByUserId(id: string): Promise<IApiResponse<INote[]>> {
     return this.client.get(`/notes/author/${id}`);
   }
 }

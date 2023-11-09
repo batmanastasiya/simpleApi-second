@@ -1,5 +1,5 @@
 import { ApiClient } from '../apiClient';
-import { IApiResponce, IUser, IUserLogin } from '../IResponces.interface';
+import { IApiResponse, IUser, IUserLogin } from '../IResponses.interface';
 import { ICreateUserRequest, ILoginRequest } from '../IRequests.interface';
 
 export class AuthService {
@@ -9,17 +9,17 @@ export class AuthService {
 
   async register(
     credentials: ICreateUserRequest,
-  ): Promise<IApiResponce<IUserLogin>> {
+  ): Promise<IApiResponse<IUserLogin>> {
     const response = await this.client.post('/auth/registration', credentials);
-    const { data }: IApiResponce<IUserLogin> = response;
+    const { data }: IApiResponse<IUserLogin> = response;
     this.client.setToken(data.accessToken);
 
     return response;
   }
 
-  async loginAs(credentials: ILoginRequest): Promise<IApiResponce<IUser>> {
+  async loginAs(credentials: ILoginRequest): Promise<IApiResponse<IUser>> {
     const response = await this.client.post('/auth/login', credentials);
-    const { data }: IApiResponce<IUserLogin> = response;
+    const { data }: IApiResponse<IUserLogin> = response;
     this.client.setToken(data.accessToken);
 
     return response;
