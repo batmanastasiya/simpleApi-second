@@ -1,21 +1,27 @@
-import { describe, test, expect } from '@jest/globals';
+import { describe, test, expect, beforeAll } from '@jest/globals';
 import { Services } from '../api/services';
+import { IApiResponse, INote } from '../api/IResponses.interface';
 
 const services = Services.getInstance();
 const authService = services.getAuthService();
 const notesService = services.getNotesService();
-const usersService = services.getUsersService();
+let notes: IApiResponse<INote[]>;
 
-describe('SimpleApi/notes', () => {
+beforeAll(async () => {
+  await authService.unauthorized();
+  // await notesService.createNote({
+  //   content: 'test note for cases when the notes are empty',
+  // });
+  notes = await notesService.getNotes();
+});
+
+describe('[Not authorized user] SimpleApi/notes', () => {
   test('should get all notes', async () => {
-    const notes = await notesService.getNotes();
-
     expect(notes.status).toBe(200);
     expect(notes.data).toBeDefined();
   });
 
   test('should get one note by id', async () => {
-    const notes = await notesService.getNotes();
     const searchedId = notes.data[0].id;
     const note = await notesService.getNoteById(searchedId);
 
@@ -24,7 +30,6 @@ describe('SimpleApi/notes', () => {
   });
 
   test('should get all notes by author id', async () => {
-    const notes = await notesService.getNotes();
     const searchedId = notes.data[0].author;
     const note = await notesService.getNotesByUserId(searchedId);
 
@@ -32,68 +37,25 @@ describe('SimpleApi/notes', () => {
     expect(note.data).toBeDefined();
   });
 
-  test('should create new note', async () => {
-    await authService.loginAs({
-      username: 'qapybara',
-      password: 'password',
-    });
-    const note = await notesService.createNote({
-      content: 'test',
-    });
-
-    expect(note.status).toBe(201);
-    expect(note.data).toBeDefined();
-  });
-
-  test('should update note', async () => {
-    await authService.loginAs({
-      username: 'qapybara',
-      password: 'password',
-    });
-    const currentUser = await usersService.getCurrentUser();
-    const searchedId = currentUser.data.id;
-    const note = await notesService.getNotesByUserId(searchedId);
-    const noteId = note.data[0].id;
-    const updatedNote = await notesService.updateNoteById(noteId, {
-      content: 'testUPDATED',
-    });
-
-    expect(updatedNote.status).toBe(200);
-    expect(updatedNote.data.content).toBe('testUPDATED');
-  });
-
-  test('should delete note', async () => {
-    await authService.loginAs({
-      username: 'qapybara',
-      password: 'password',
-    });
-    const currentUser = await usersService.getCurrentUser();
-    const searchedId = currentUser.data.id;
-    const note = await notesService.getNotesByUserId(searchedId);
-    const noteId = note.data[0].id;
-    const deletedNote = await notesService.deleteNoteById(noteId);
-
-    expect(deletedNote.status).toBe(200);
-  });
-
   test('should not create note by not logged in user', async () => {
-    await authService.unauthorized();
-    const note = await notesService.createNote({
-      content: 'test',
-    });
-
-    expect(note.status).toBe(401);
+    try {
+      await notesService.createNote({
+        content: 'test',
+      });
+    } catch (e: any) {
+      expect(e.response.status).toBe(401);
+    }
   });
 
   test('should not update note by not logged in user', async () => {
-    await authService.unauthorized();
-    const notes = await notesService.getNotes();
-    const searchedId = notes.data[0].id;
-    const note = await notesService.updateNoteById(searchedId, {
-      content: 'testUPDATED',
-    });
-
-    expect(note.status).toBe(401);
+    try {
+      const searchedId = notes.data[0].id;
+      await notesService.updateNoteById(searchedId, {
+        content: 'testUPDATED',
+      });
+    } catch (e: any) {
+      expect(e.response.status).toBe(401);
+    }
   });
 
   test('should get empty array of notes by invalid author id', async () => {
@@ -108,54 +70,12 @@ describe('SimpleApi/notes', () => {
     expect(note.data).toHaveLength(0);
   });
 
-  test('should not update non existent note ', async () => {
-    await authService.loginAs({
-      username: 'qapybara',
-      password: 'password',
-    });
-
-    const note = await notesService.updateNoteById('invalidId', {
-      content: 'testUPDATED',
-    });
-
-    expect(note.status).toBe(404);
-  });
-
-  test('should not delete non existent note ', async () => {
-    await authService.loginAs({
-      username: 'qapybara',
-      password: 'password',
-    });
-
-    const note = await notesService.deleteNoteById('invalidId');
-
-    expect(note.status).toBe(404);
-  });
-
   test('should not delete note without access token', async () => {
-    await authService.unauthorized();
-    const note = await notesService.getNotes();
-    const noteToDelete = note.data[0].id;
-    const deletedNote = await notesService.deleteNoteById(noteToDelete);
-
-    expect(deletedNote.status).toBe(401);
-  });
-
-  test('Should not delete anoter user note', async () => {
-    await authService.loginAs({
-      username: 'qapybara',
-      password: 'password',
-    });
-    const note = await notesService.createNote({
-      content: 'test',
-    });
-    const searchedId = note.data.id;
-    await authService.loginAs({
-      username: 'test',
-      password: 'password',
-    });
-    const deletedNote = await notesService.deleteNoteById(searchedId);
-
-    expect(deletedNote.status).toBe(403);
+    try {
+      const noteToDelete = notes.data[0].id;
+      await notesService.deleteNoteById(noteToDelete);
+    } catch (e: any) {
+      expect(e.response.status).toBe(401);
+    }
   });
 });

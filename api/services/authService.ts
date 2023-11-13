@@ -12,7 +12,7 @@ export class AuthService {
   ): Promise<IApiResponse<IUserLogin>> {
     const response = await this.client.post('/auth/registration', credentials);
     const { data }: IApiResponse<IUserLogin> = response;
-    this.client.setToken(data.accessToken);
+    this.setToken(data.accessToken);
 
     return response;
   }
@@ -20,12 +20,16 @@ export class AuthService {
   async loginAs(credentials: ILoginRequest): Promise<IApiResponse<IUser>> {
     const response = await this.client.post('/auth/login', credentials);
     const { data }: IApiResponse<IUserLogin> = response;
-    this.client.setToken(data.accessToken);
+    this.setToken(data.accessToken);
 
     return response;
   }
 
   unauthorized() {
     this.client.deleteToken();
+  }
+
+  setToken(token: string) {
+    this.client.setToken(token);
   }
 }
