@@ -1,54 +1,52 @@
-import axios from 'axios';
-
-axios.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  function (error) {
-    if (error.response.status < 500) {
-      return error.response;
-    }
-    return Promise.reject(error);
-  },
-);
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { IApiResponse } from './IResponses.interface';
+import { ICreateNoteRequest } from './IRequests.interface';
 
 export class ApiClient {
-  private token: string = '';
+  private instance: AxiosInstance;
+  private token = '';
 
-  async get(path: string) {
-    return await axios.get(`https://simpleapi.pfizer.keenetic.link${path}`, {
-      headers: { Authorization: `Bearer ${this.token}` },
+  constructor() {
+    this.instance = axios.create({
+      // baseURL: 'https://simpleapi.pfizer.keenetic.link',
+      baseURL: process.env.BASE_URL,
     });
   }
 
-  async post(path: string, data: unknown) {
-    return await axios.post(
-      `https://simpleapi.pfizer.keenetic.link${path}`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${this.token}`,
-        },
-      },
-    );
+  private async request(
+    config: AxiosRequestConfig,
+  ): Promise<IApiResponse<never>> {
+    const requestConfig = this.getRequestConfig(config);
+    return this.instance.request(requestConfig);
   }
 
-  async patch(path: string, data: { content: string }) {
-    return await axios.patch(
-      `https://simpleapi.pfizer.keenetic.link${path}`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${this.token}`,
-        },
-      },
-    );
+  private getRequestConfig(config: AxiosRequestConfig): AxiosRequestConfig {
+    const requestConfig = { ...config };
+    if (this.token) {
+      requestConfig.headers = {
+        Authorization: `Bearer ${this.token}`,
+      };
+    }
+    return requestConfig;
   }
 
-  async delete(path: string) {
-    return await axios.delete(`https://simpleapi.pfizer.keenetic.link${path}`, {
-      headers: { Authorization: `Bearer ${this.token}` },
-    });
+  async get(path: string): Promise<IApiResponse<never>> {
+    return this.request({ url: path, method: 'GET' });
+  }
+
+  async post(path: string, data: unknown): Promise<IApiResponse<never>> {
+    return this.request({ url: path, method: 'POST', data });
+  }
+
+  async patch(
+    path: string,
+    data: ICreateNoteRequest,
+  ): Promise<IApiResponse<never>> {
+    return this.request({ url: path, method: 'PATCH', data });
+  }
+
+  async delete(path: string): Promise<IApiResponse<never>> {
+    return this.request({ url: path, method: 'DELETE' });
   }
 
   public setToken(token: string) {
