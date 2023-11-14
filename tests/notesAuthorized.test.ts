@@ -14,8 +14,8 @@ beforeAll(async () => {
   currentUser = await usersService.getCurrentUser();
 });
 
-describe('[Authorized user] SimpleApi/auth', () => {
-  test('should create new note', async () => {
+describe('SimpleApi/notes [#Authorized-user][#notes]', () => {
+  test('should create new note [#smoke]', async () => {
     const note = await notesService.createNote({
       content: 'test',
     });
@@ -24,7 +24,7 @@ describe('[Authorized user] SimpleApi/auth', () => {
     expect(note.data).toBeDefined();
   });
 
-  test('should update note', async () => {
+  test('should update note [#smoke]', async () => {
     const searchedId = currentUser.data.id;
     const note = await notesService.getNotesByUserId(searchedId);
     const noteId = note.data[0].id;
@@ -36,7 +36,7 @@ describe('[Authorized user] SimpleApi/auth', () => {
     expect(updatedNote.data.content).toBe('testUPDATED');
   });
 
-  test('should delete note', async () => {
+  test('should delete note [#smoke]', async () => {
     const searchedId = currentUser.data.id;
     const note = await notesService.getNotesByUserId(searchedId);
     const noteId = note.data[0].id;

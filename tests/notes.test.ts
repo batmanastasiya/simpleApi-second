@@ -15,13 +15,13 @@ beforeAll(async () => {
   notes = await notesService.getNotes();
 });
 
-describe('[Not authorized user] SimpleApi/notes', () => {
-  test('should get all notes', async () => {
+describe('SimpleApi/notes [#Not-authorized-user][#notes]', () => {
+  test('should get all notes [#smoke]', async () => {
     expect(notes.status).toBe(200);
     expect(notes.data).toBeDefined();
   });
 
-  test('should get one note by id', async () => {
+  test('should get one note by id [#smoke]', async () => {
     const searchedId = notes.data[0].id;
     const note = await notesService.getNoteById(searchedId);
 
@@ -29,7 +29,7 @@ describe('[Not authorized user] SimpleApi/notes', () => {
     expect(note.data).toBeDefined();
   });
 
-  test('should get all notes by author id', async () => {
+  test('should get all notes by author id [#smoke]', async () => {
     const searchedId = notes.data[0].author;
     const note = await notesService.getNotesByUserId(searchedId);
 

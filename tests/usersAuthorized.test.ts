@@ -10,15 +10,15 @@ beforeAll(async () => {
   await authService.loginAs(defaultUser);
 });
 
-describe('[Authorized user] SimpleApi/auth', () => {
-  test('Should get data about current user', async () => {
+describe('SimpleApi/auth [#Authorized-user][#users]', () => {
+  test('Should get data about current user [#smoke]', async () => {
     const user = await usersService.getCurrentUser();
 
     expect(user.status).toBe(200);
     expect(user.data).toBeDefined();
   });
 
-  test('Should delete own user', async () => {
+  test('Should delete own user [#smoke]', async () => {
     await authService.register({
       name: `test${new Date().getTime()}`,
       username: `test${new Date().getTime()}`,

@@ -9,15 +9,15 @@ beforeAll(async () => {
   await authService.unauthorized();
 });
 
-describe('[Not authorized user] SimpleApi/users', () => {
-  test('Should get list of all users', async () => {
+describe('SimpleApi/users [#Not-authorized-user][#users]', () => {
+  test('Should get list of all users [#smoke]', async () => {
     const users = await usersService.getUsers();
 
     expect(users.status).toBe(200);
     expect(users.data).toBeDefined();
   });
 
-  test('Should get data about user by id', async () => {
+  test('Should get data about user by id [#smoke]', async () => {
     const users = await usersService.getUsers();
     const searchedId = users.data[0].id;
     const user = await usersService.getUserById(searchedId);

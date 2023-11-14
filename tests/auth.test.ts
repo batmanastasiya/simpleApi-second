@@ -6,8 +6,8 @@ const services = Services.getInstance('default');
 
 const authService = services.getAuthService();
 
-describe('SimpleApi/auth', () => {
-  test('Should be able to register with valid data', async () => {
+describe('SimpleApi/auth [#auth]', () => {
+  test('Should be able to register with valid data [#smoke]', async () => {
     const user = await authService.register({
       name: `test${new Date().getTime()}`,
       username: `test${new Date().getTime()}`,
@@ -45,7 +45,7 @@ describe('SimpleApi/auth', () => {
     }
   });
 
-  test('Should be able to login with valid credentials', async () => {
+  test('Should be able to login with valid credentials [#smoke]', async () => {
     const user = await authService.loginAs(defaultUser);
 
     expect(user.status).toBe(200);

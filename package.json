@@ -5,6 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "node --env-file=.env node_modules/.bin/jest",
+    "test:notes": "node --env-file=.env node_modules/.bin/jest -t=#notes",
+    "test:users": "node --env-file=.env node_modules/.bin/jest -t=#users",
+    "test:auth": "node --env-file=.env node_modules/.bin/jest -t=#auth",
+    "test:smoke": "node --env-file=.env node_modules/.bin/jest -t=#smoke",
+    "test:authorized-user": "node --env-file=.env node_modules/.bin/jest -t=#Authorized-user",
+    "test:not-authorized-user": "node --env-file=.env node_modules/.bin/jest -t=#Not-authorized-user",
     "lint": "eslint \"{api,tests}/**/*.ts\" --fix",
     "build": "tsc",
     "prepare": "husky install"
