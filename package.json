@@ -7,7 +7,7 @@
     "test": "node --env-file=.env node_modules/.bin/jest",
     "test:notes": "node --env-file=.env node_modules/.bin/jest -t=#notes",
     "test:users": "node --env-file=.env node_modules/.bin/jest -t=#users",
-    "test:auth": "node --env-file=.env node_modules/.bin/jest -t=#auth",
+    "test:auth": "node --env-file=.env node_modules/.bin/jest -t=#authorization",
     "test:smoke": "node --env-file=.env node_modules/.bin/jest -t=#smoke",
     "test:authorized-user": "node --env-file=.env node_modules/.bin/jest -t=#Authorized-user",
     "test:not-authorized-user": "node --env-file=.env node_modules/.bin/jest -t=#Not-authorized-user",
@@ -20,22 +20,23 @@
   "dependencies": {
     "axios": "^1.5.1",
     "jest": "^29.7.0",
-    "typescript": "^5.2.2",
-    "ts-jest": "^29.1.1"
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.2.2"
   },
   "devDependencies": {
+    "@reportportal/agent-js-jest": "^5.0.6",
     "@types/jest": "^29.5.7",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "eslint": "8.22.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.1.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
     "husky": "^8.0.0",
-    "prettier": "3.0.3",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-base": "^15.0.0"
-
+    "jest-html-reporter": "^3.10.2",
+    "prettier": "3.0.3"
   },
   "engines": {
     "node": "20.9.0"

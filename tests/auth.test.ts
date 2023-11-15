@@ -1,32 +1,27 @@
 import { describe, test, expect } from '@jest/globals';
 import { Services } from '../api/services';
 import { defaultUser } from '../users';
+import { generateUserData } from '../fixtures/userDataGeneration';
 
 const services = Services.getInstance('default');
-
 const authService = services.getAuthService();
+const usersService = services.getUsersService();
 
-describe('SimpleApi/auth [#auth]', () => {
+describe('SimpleApi/auth [#authorization]', () => {
   test('Should be able to register with valid data [#smoke]', async () => {
-    const user = await authService.register({
-      name: `test${new Date().getTime()}`,
-      username: `test${new Date().getTime()}`,
-      password1: 'password',
-      password2: 'password',
-    });
+    const user = await authService.register(generateUserData());
 
     expect(user.status).toBe(200);
     expect(user.data).toBeDefined();
+
+    await usersService.deleteUser();
   });
 
   test('Should not be able to register with taken username', async () => {
     try {
-      await authService.register({
-        name: `test${new Date().getTime()}`,
-        username: 'qapybara',
-        password1: 'password',
-        password2: 'password',
-      });
+      await authService.register(
+        generateUserData({ username: defaultUser.username }),
+      );
     } catch (e: any) {
       expect(e.response.status).toBe(409);
     }
@@ -34,12 +29,7 @@ describe('SimpleApi/auth [#auth]', () => {
 
   test('Should not be able to register with non mathed passwords', async () => {
     try {
-      await authService.register({
-        name: `test${new Date().getTime()}`,
-        username: `test${new Date().getTime()}`,
-        password1: 'password',
-        password2: 'password2',
-      });
+      await authService.register(generateUserData({ password2: 'password2' }));
     } catch (e: any) {
       expect(e.response.status).toBe(401);
     }
