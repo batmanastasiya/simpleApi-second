@@ -30,3 +30,6 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: |
+            ${{ github.step.summary }} step summary
+            ${{ github.output }} github output
