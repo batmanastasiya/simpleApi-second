@@ -25,3 +25,8 @@ jobs:
         echo "${{secrets.MY_ENV }}" > .env
     - run: npm ci
     - run: npm run test
+    - name: send default message to telegram
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_CHAT_ID }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
