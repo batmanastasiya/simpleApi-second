@@ -32,11 +32,8 @@ jobs:
         token: ${{ secrets.TELEGRAM_TOKEN }}
         disable_notification: true
         message: |
-            ${{ github.actor }} created commit:
-            Commit message: ${{ github.event.commits[0].message }}
-            
             Repository: ${{ github.repository }}
-            
-            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+  
+            See action details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
             Test results:
         document: ./test-report.html
