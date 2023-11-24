@@ -30,5 +30,6 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_CHAT_ID }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
+        disable_notification: true
         message: Test results
         document: ./test-report.html
