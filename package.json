@@ -11,6 +11,7 @@
     "test:smoke": "node --env-file=.env node_modules/.bin/jest -t=#smoke",
     "test:authorized-user": "node --env-file=.env node_modules/.bin/jest -t=#Authorized-user",
     "test:not-authorized-user": "node --env-file=.env node_modules/.bin/jest -t=#Not-authorized-user",
+    "test:combined": "node --env-file=.env node_modules/.bin/jest -t=#combined",
     "lint": "eslint \"{api,tests}/**/*.ts\" --fix",
     "build": "tsc",
     "prepare": "husky install"
