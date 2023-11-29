@@ -1,11 +1,12 @@
 import { describe, test, expect, beforeAll } from '@jest/globals';
+import { AxiosResponse } from 'axios';
 import { Services } from '../api/services';
-import { IApiResponse, IUser } from '../api/IResponses.interface';
+import { IUser } from '../api/IResponses.interface';
 
 const services = Services.getInstance();
 const authService = services.getAuthService();
 const usersService = services.getUsersService();
-let users: IApiResponse<IUser[]>;
+let users: AxiosResponse<IUser[]>;
 
 beforeAll(async () => {
   await authService.unauthorized();
@@ -30,6 +31,7 @@ describe('SimpleApi/users [#Not-authorized-user][#users]', () => {
   test('Should not get data about current user without access token', async () => {
     try {
       await usersService.getCurrentUser();
+      fail('User data was received without access token');
     } catch (e: any) {
       expect(e.response.status).toBe(401);
     }
@@ -38,6 +40,7 @@ describe('SimpleApi/users [#Not-authorized-user][#users]', () => {
   test('Should not get users data by invalid id', async () => {
     try {
       await usersService.getUserById('invalidId');
+      fail('User data was received by invalid id');
     } catch (e: any) {
       expect(e.response.status).toBe(400);
     }

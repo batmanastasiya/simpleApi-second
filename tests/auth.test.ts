@@ -22,6 +22,7 @@ describe('SimpleApi/auth [#authorization]', () => {
       await authService.register(
         generateUserData({ username: defaultUser.username }),
       );
+      fail('Should not be able to register with taken username');
     } catch (e: any) {
       expect(e.response.status).toBe(409);
     }
@@ -30,6 +31,7 @@ describe('SimpleApi/auth [#authorization]', () => {
   test('Should not be able to register with non mathed passwords', async () => {
     try {
       await authService.register(generateUserData({ password2: 'password2' }));
+      fail('Should not be able to register with non mathed passwords');
     } catch (e: any) {
       expect(e.response.status).toBe(401);
     }
@@ -48,6 +50,7 @@ describe('SimpleApi/auth [#authorization]', () => {
         username: 'fjglkdhfglhdflkgj',
         password: defaultUser.password,
       });
+      fail('Should not be able to login with inorrect username');
     } catch (e: any) {
       expect(e.response.status).toBe(404);
     }
@@ -59,6 +62,8 @@ describe('SimpleApi/auth [#authorization]', () => {
         username: defaultUser.username,
         password: 'password2',
       });
+
+      fail('Should not be able to login with incorrect password');
     } catch (e: any) {
       expect(e.response.status).toBe(404);
     }

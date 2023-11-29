@@ -1,12 +1,13 @@
 import { describe, test, expect, beforeAll } from '@jest/globals';
+import { AxiosResponse } from 'axios';
 import { Services } from '../api/services';
-import { IApiResponse, INote } from '../api/IResponses.interface';
+import { INote } from '../api/IResponses.interface';
 import { prepareDataIfNesessary } from '../fixtures/dataPreparation';
 
 const services = Services.getInstance();
 const authService = services.getAuthService();
 const notesService = services.getNotesService();
-let notes: IApiResponse<INote[]>;
+let notes: AxiosResponse<INote[]>;
 
 beforeAll(async () => {
   await prepareDataIfNesessary();
@@ -44,6 +45,7 @@ describe('SimpleApi/notes [#Not-authorized-user][#notes]', () => {
       await notesService.createNote({
         content: 'test',
       });
+      fail('Note was created by not logged in user');
     } catch (e: any) {
       expect(e.response.status).toBe(401);
     }
@@ -55,6 +57,7 @@ describe('SimpleApi/notes [#Not-authorized-user][#notes]', () => {
       await notesService.updateNoteById(searchedId, {
         content: 'testUPDATED',
       });
+      fail('Note was updated by not logged in user');
     } catch (e: any) {
       expect(e.response.status).toBe(401);
     }
@@ -76,6 +79,7 @@ describe('SimpleApi/notes [#Not-authorized-user][#notes]', () => {
     try {
       const noteToDelete = notes.data[0].id;
       await notesService.deleteNoteById(noteToDelete);
+      fail('Note was deleted by not logged in user');
     } catch (e: any) {
       expect(e.response.status).toBe(401);
     }

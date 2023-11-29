@@ -1,24 +1,25 @@
+import { AxiosResponse, AxiosPromise } from 'axios';
 import { ApiClient } from '../apiClient';
-import { IApiResponse, IUser } from '../IResponses.interface';
+import { IUser } from '../IResponses.interface';
 
 export class UsersService {
   constructor(private readonly client: ApiClient) {
     this.client = client;
   }
 
-  async getUsers(): Promise<IApiResponse<IUser[]>> {
+  async getUsers(): Promise<AxiosResponse<IUser[]>> {
     return this.client.get('/users');
   }
 
-  async getCurrentUser(): Promise<IApiResponse<IUser>> {
+  async getCurrentUser(): Promise<AxiosResponse<IUser>> {
     return this.client.get('/users/me');
   }
 
-  async getUserById(id: string): Promise<IApiResponse<IUser>> {
+  async getUserById(id: string): Promise<AxiosResponse<IUser>> {
     return this.client.get(`/users/${id}`);
   }
 
-  async deleteUser(): Promise<IApiResponse> {
+  async deleteUser(): AxiosPromise<AxiosResponse> {
     return this.client.delete('/users');
   }
 }

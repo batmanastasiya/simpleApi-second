@@ -1,13 +1,14 @@
 import { describe, test, expect, beforeAll } from '@jest/globals';
+import { AxiosResponse } from 'axios/index';
 import { Services } from '../api/services';
-import { IApiResponse, INote, IUser } from '../api/IResponses.interface';
+import { INote, IUser } from '../api/IResponses.interface';
 import { anotherUser, defaultUser } from '../users';
 
 const services = Services.getInstance();
 const authService = services.getAuthService();
 const usersService = services.getUsersService();
 const notesService = services.getNotesService();
-let currentUser: IApiResponse<IUser>;
+let currentUser: AxiosResponse<IUser>;
 let noteData: INote;
 
 beforeAll(async () => {
@@ -52,14 +53,16 @@ describe('SimpleApi/notes [#Authorized-user][#notes]', () => {
       await notesService.updateNoteById('invalidId', {
         content: 'testUPDATED',
       });
+      fail('Note was updated by not logged in user');
     } catch (e: any) {
       expect(e.response.status).toBe(404);
     }
   });
 
-  test('should shrow 404 on delete non existent note ', async () => {
+  test('should throw 404 on delete non existent note ', async () => {
     try {
       await notesService.deleteNoteById('invalidId');
+      fail('There is no error on delete non existent note');
     } catch (e: any) {
       expect(e.response.status).toBe(404);
     }
@@ -73,6 +76,7 @@ describe('SimpleApi/notes [#Authorized-user][#notes]', () => {
       const searchedId = note.data.id;
       await authService.loginAs(anotherUser);
       await notesService.deleteNoteById(searchedId);
+      fail('Note was deleted by another user');
     } catch (e: any) {
       expect(e.response.status).toBe(403);
     }

@@ -18,8 +18,3 @@ export interface INote {
   createdAt: string;
   updatedAt: string;
 }
-
-export interface IApiResponse<T = unknown> {
-  status: number;
-  data: T;
-}

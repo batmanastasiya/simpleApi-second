@@ -6,7 +6,7 @@ It is using [Jest](https://jestjs.io/) as a testing framework
 1. Clone the repository
 2. Install dependencies
 ```
-npm install
+npm ci
 ```
 3. Create .env file in the root of the project (please, use .env.example as a template)
 

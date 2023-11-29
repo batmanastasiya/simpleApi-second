@@ -1,5 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { IApiResponse } from './IResponses.interface';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosPromise } from 'axios';
 import { ICreateNoteRequest } from './IRequests.interface';
 
 export class ApiClient {
@@ -13,9 +12,7 @@ export class ApiClient {
     });
   }
 
-  private async request(
-    config: AxiosRequestConfig,
-  ): Promise<IApiResponse<never>> {
+  private async request(config: AxiosRequestConfig): AxiosPromise {
     const requestConfig = this.getRequestConfig(config);
     return this.instance.request(requestConfig);
   }
@@ -30,22 +27,19 @@ export class ApiClient {
     return requestConfig;
   }
 
-  async get(path: string): Promise<IApiResponse<never>> {
+  async get(path: string): AxiosPromise {
     return this.request({ url: path, method: 'GET' });
   }
 
-  async post(path: string, data: unknown): Promise<IApiResponse<never>> {
+  async post(path: string, data: unknown): AxiosPromise {
     return this.request({ url: path, method: 'POST', data });
   }
 
-  async patch(
-    path: string,
-    data: ICreateNoteRequest,
-  ): Promise<IApiResponse<never>> {
+  async patch(path: string, data: ICreateNoteRequest): AxiosPromise {
     return this.request({ url: path, method: 'PATCH', data });
   }
 
-  async delete(path: string): Promise<IApiResponse<never>> {
+  async delete(path: string): AxiosPromise {
     return this.request({ url: path, method: 'DELETE' });
   }
 
