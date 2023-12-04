@@ -4,8 +4,8 @@
 name: Run my awesome tests
 
 on:
-  schedule:
-    - cron:  '20 4 * * *'
+  # schedule:
+  #   - cron:  '20 4 * * *'
   push:
     branches: [ "main" ]
 
